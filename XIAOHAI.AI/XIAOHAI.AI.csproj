@@ -12,7 +12,14 @@
     <PackageReference Include="Selenium.WebDriver" Version="4.41.0" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.10" />
     <PackageReference Include="System.Management" Version="10.0.3" />
+    <PackageReference Include="System.Speech" Version="8.0.0" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="plugins\*.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
