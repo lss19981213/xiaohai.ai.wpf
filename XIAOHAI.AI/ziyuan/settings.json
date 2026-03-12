@@ -1,0 +1,8 @@
+{
+  "OllamaUrl": "http://192.168.5.82:11434",
+  "Model": "glm-4.7-flash:latest",
+  "VisionModel": "qwen3-vl:8b",
+  "BaiduApiKey": "bce-v3/ALTAK-gRxD25bItOmcVj4ytKxMk/a70a76e7f03b75eac887b70b4c4b4cfe7bad044b",
+  "BaiduUserId": "2667f89050004953bc205b517d12e649",
+  "OpenClawUrl": "http://192.168.5.67:18789"
+}

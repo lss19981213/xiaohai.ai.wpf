@@ -1,0 +1,266 @@
+<Window x:Class="XIAOHAI.AI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:XIAOHAI.AI"
+        mc:Ignorable="d"
+        Title="小海 · 智能对话"
+        Height="800" Width="1200"
+        MinHeight="500" MinWidth="700"
+        Background="#0a0b0f"
+        WindowStartupLocation="CenterScreen"
+        Icon="/ziyuan/bitbug_favicon.ico"
+        Closing="Window_Closing">
+    <Window.Resources>
+        <SolidColorBrush x:Key="BgDark" Color="#0a0b0f"/>
+        <SolidColorBrush x:Key="BgCard" Color="#12141c"/>
+        <SolidColorBrush x:Key="Border" Color="#6366f1"/>
+        <SolidColorBrush x:Key="Text" Color="#e8eaf0"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#8b8fa8"/>
+        <SolidColorBrush x:Key="Accent" Color="#6366f1"/>
+        <SolidColorBrush x:Key="AccentPurple" Color="#8b5cf6"/>
+        <LinearGradientBrush x:Key="AccentGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#6366f1" Offset="0"/>
+            <GradientStop Color="#8b5cf6" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 侧边栏 -->
+        <Border Grid.Column="0" Background="{StaticResource BgCard}" BorderBrush="{StaticResource Border}" BorderThickness="0,0,1,0" Opacity="0.95">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" ShadowDepth="0" Opacity="0.3"/>
+            </Border.Effect>
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <!-- 顶部内容 -->
+                <StackPanel Grid.Row="0">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                        <Image Source="./ziyuan/AIlogo.png" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="小海.AI智能体" Foreground="{StaticResource Text}" FontWeight="SemiBold" FontSize="16" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Text="工具模型" Foreground="{StaticResource TextMuted}" FontSize="11" Margin="0,0,0,6"/>
+                    <TextBlock x:Name="ModelText" Text="未选择模型" Foreground="{StaticResource Text}" FontSize="13" Margin="0,0,0,12"/>
+                    <TextBlock Text="视觉模型" Foreground="{StaticResource TextMuted}" FontSize="11" Margin="0,0,0,6"/>
+                    <TextBlock x:Name="VisionModelText" Text="未选择模型" Foreground="{StaticResource Text}" FontSize="13" Margin="0,0,0,12"/>
+                    <TextBlock Text="连接状态" Foreground="{StaticResource TextMuted}" FontSize="11" Margin="0,0,0,6"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse x:Name="StatusDot" Width="10" Height="10" Fill="{StaticResource TextMuted}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock x:Name="StatusText" Text="检测中..." Foreground="{StaticResource TextMuted}" FontSize="13" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <Button x:Name="OpenClawBtn" Content="🌟 龙虾小海" HorizontalAlignment="Stretch" Margin="0,20,0,12"
+                            Height="40" Padding="12,0" Background="Transparent"
+                            Foreground="#10b981" BorderBrush="#10b981" BorderThickness="1"
+                            Cursor="Hand" Click="OpenClawBtn_Click" ToolTip="基于 OpenClaw Agent 的龙虾助手"/>
+                    <Button x:Name="AutomationBtn" Content="🤖 自动化" HorizontalAlignment="Stretch" Margin="0,0,0,12"
+                            Height="40" Padding="12,0" Background="Transparent"
+                            Foreground="#6366f1" BorderBrush="#6366f1" BorderThickness="1"
+                            Cursor="Hand" Click="AutomationBtn_Click" ToolTip="AI 桌面自动化助手"/>
+                    <Button x:Name="OCRBtn" Content="🔍 视觉识别" HorizontalAlignment="Stretch" Margin="0,0,0,12"
+                            Height="40" Padding="12,0" Background="Transparent"
+                            Foreground="#f59e0b" BorderBrush="#f59e0b" BorderThickness="1"
+                            Cursor="Hand" Click="OCRBtn_Click" ToolTip="图片视觉识别与自动填表"/>
+                </StackPanel>
+                
+                <!-- 底部设置按钮区域 -->
+                <StackPanel Grid.Row="2" VerticalAlignment="Bottom">
+                    <Button x:Name="TutorialBtn" Content="📖 使用教程" HorizontalAlignment="Stretch"
+                            Height="40" Padding="12,0" Background="Transparent"
+                            Foreground="{StaticResource Text}" BorderBrush="{StaticResource Border}" BorderThickness="1"
+                            Cursor="Hand" Click="TutorialBtn_Click" Margin="0,0,0,10"/>
+                    <Button x:Name="KnowledgeBaseBtn" Content="🧠 知识库" HorizontalAlignment="Stretch"
+                            Height="40" Padding="12,0" Background="Transparent"
+                            Foreground="{StaticResource Text}" BorderBrush="{StaticResource Border}" BorderThickness="1"
+                            Cursor="Hand" Click="KnowledgeBaseBtn_Click" Margin="0,0,0,10"/>
+                    <Button x:Name="UpdateBtn" Content="🔄 检查更新" HorizontalAlignment="Stretch"
+                            Height="40" Padding="12,0" Margin="0,0,0,12"
+                            Background="Transparent" Foreground="{StaticResource TextMuted}" 
+                            BorderBrush="{StaticResource TextMuted}" BorderThickness="1"
+                            Cursor="Hand" Click="UpdateBtn_Click"/>
+                    <Button x:Name="SettingsBtn" Content="⚙ 设置" HorizontalAlignment="Stretch"
+                            Height="40" Padding="12,0" Background="Transparent"
+                            Foreground="{StaticResource Text}" BorderBrush="{StaticResource Border}" BorderThickness="1"
+                            Cursor="Hand" Click="SettingsBtn_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 主聊天区 -->
+        <Grid Grid.Column="1" Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 消息区域 -->
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <Border Grid.Row="0" Background="{StaticResource BgCard}" BorderBrush="{StaticResource Border}" BorderThickness="0,0,0,1" Padding="16,8,16,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBox x:Name="SearchTextBox" Grid.Column="0" Height="32" Padding="12,0" VerticalContentAlignment="Center"
+                                 Background="#1a1c25" Foreground="{StaticResource Text}" BorderBrush="{StaticResource Border}" BorderThickness="1"
+                                 FontSize="13" TextChanged="SearchTextBox_TextChanged"
+                                 ToolTip="输入关键词搜索聊天记录"/>
+                        
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="12,0,0,0">
+                            <Button x:Name="ClearSearchBtn" Content="×" Width="32" Height="32" Margin="0,0,8,0"
+                                    Background="Transparent" Foreground="{StaticResource TextMuted}" BorderThickness="0"
+                                    Cursor="Hand" Click="ClearSearchBtn_Click" FontSize="16" ToolTip="清除搜索"/>
+                            <Button x:Name="ExportChatBtn" Content="📥" Width="32" Height="32"
+                                    Background="Transparent" Foreground="{StaticResource TextMuted}" BorderThickness="0"
+                                    Cursor="Hand" Click="ExportChatBtn_Click" FontSize="14" ToolTip="导出聊天记录"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                
+                <ScrollViewer x:Name="MessageScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="24,20"
+                              Background="Transparent">
+                    <StackPanel x:Name="MessagePanel">
+                        <!-- 欢迎提示 -->
+                        <StackPanel x:Name="WelcomePanel" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,80,0,0">
+                            <TextBlock Text="小海-海蓝智能的AI管家" FontSize="28" FontWeight="Bold" Foreground="{StaticResource Text}"
+                                       HorizontalAlignment="Center" Margin="0,0,0,12"/>
+                            <TextBlock Text="接入本地模型，开启智能对话" Foreground="{StaticResource TextMuted}"
+                                       HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+                
+                <!-- 清除记忆按钮 - 右下角 -->
+                <Button x:Name="ClearMemoryBtn" Grid.Row="1" Content="🗑 清除记忆" 
+                        HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                        Margin="0,0,1,1" Padding="12,8"
+                        Background="#1a1c26" Foreground="#ef4444"
+                        BorderBrush="#ef4444" BorderThickness="1"
+                        Cursor="Hand" Click="ClearMemoryBtn_Click" 
+                        ToolTip="清除所有聊天历史记录" FontSize="12"
+                        Opacity="0.8">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="6"
+                                                Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="1"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+
+            <!-- OCR提示显示区 -->
+            <Border x:Name="OcrResultBorder" Grid.Row="1" Background="{StaticResource BgCard}" BorderBrush="{StaticResource Border}" BorderThickness="0,0,0,1" Padding="24,8" Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="OcrResultText" Text="" Foreground="{StaticResource Text}" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                    <Button x:Name="ClearOcrResultBtn" Content="×" Width="20" Height="20" Margin="8,0,0,0" Padding="0"
+                            Background="Transparent" Foreground="{StaticResource TextMuted}" BorderThickness="0"
+                            Cursor="Hand" Click="ClearOcrResultBtn_Click" FontSize="14" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+            
+            <!-- 选中文件显示区 -->
+            <Border x:Name="SelectedFileBorder" Grid.Row="2" Background="{StaticResource BgCard}" BorderBrush="{StaticResource Border}" BorderThickness="0,0,0,1" Padding="24,8" Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="📄已选文件: " Foreground="{StaticResource TextMuted}" FontSize="12" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="SelectedFileNameText" Text="" Foreground="{StaticResource Text}" FontSize="12" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                    <Button x:Name="RemoveFileBtn" Content="×" Width="20" Height="20" Margin="8,0,0,0" Padding="0"
+                            Background="Transparent" Foreground="{StaticResource TextMuted}" BorderThickness="0"
+                            Cursor="Hand" Click="RemoveFileBtn_Click" FontSize="14" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+            
+            <!-- 输入区 -->
+            <Border Grid.Row="3" Background="{StaticResource BgCard}" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0" Padding="24,16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="AddFileBtn" Grid.Column="0" Width="48" Height="44" Margin="0,0,12,0"
+                            Background="Transparent" Foreground="{StaticResource TextMuted}" BorderThickness="1" BorderBrush="{StaticResource Border}"
+                            Cursor="Hand" Click="AddFileBtn_Click" Content="📄" FontSize="16" ToolTip="添加文件"/>
+                    
+                    <Button x:Name="QuickReplyBtn" Grid.Column="1" Width="48" Height="44" Margin="0,0,12,0"
+                            Background="Transparent" Foreground="{StaticResource TextMuted}" BorderThickness="1" BorderBrush="{StaticResource Border}"
+                            Cursor="Hand" Click="QuickReplyBtn_Click" Content="💬" FontSize="16" ToolTip="快捷回复">
+                        <Button.ContextMenu>
+                            <ContextMenu x:Name="QuickReplyMenu">
+                                <MenuItem Header="📝 总结以上内容" Click="QuickReplyMenuItem_Click" Tag="请帮我总结以上内容"/>
+                                <MenuItem Header="🌐 翻译成英文" Click="QuickReplyMenuItem_Click" Tag="请将以上内容翻译成英文"/>
+                                <MenuItem Header="🇨🇳 翻译成中文" Click="QuickReplyMenuItem_Click" Tag="请将以上内容翻译成中文"/>
+                                <MenuItem Header="💻 优化代码" Click="QuickReplyMenuItem_Click" Tag="请帮我优化这段代码"/>
+                                <MenuItem Header="🐛 修复bug" Click="QuickReplyMenuItem_Click" Tag="请帮我找出并修复这段代码中的bug"/>
+                                <MenuItem Header="📖 解释代码" Click="QuickReplyMenuItem_Click" Tag="请详细解释这段代码的功能和原理"/>
+                                <MenuItem Header="✨ 改进建议" Click="QuickReplyMenuItem_Click" Tag="请给出改进建议"/>
+                                <MenuItem Header="📋 格式化输出" Click="QuickReplyMenuItem_Click" Tag="请以更清晰的格式输出"/>
+                                <Separator/>
+                                <MenuItem Header="⚙️ 管理快捷回复..." Click="ManageQuickReplies_Click"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                    
+                    <RichTextBox x:Name="InputBox" Grid.Column="2" MinHeight="44" MaxHeight="120"
+                             Background="Transparent" Foreground="{StaticResource Text}" CaretBrush="{StaticResource Accent}"
+                             BorderThickness="0" Padding="12,10" FontSize="15"
+                             AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                             KeyDown="InputBox_KeyDown" TextChanged="InputBox_TextChanged">
+                        <RichTextBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="ApplicationCommands.Paste" Header="粘贴" />
+                            </ContextMenu>
+                        </RichTextBox.ContextMenu>
+                        <RichTextBox.CommandBindings>
+                            <CommandBinding Command="ApplicationCommands.Paste" Executed="InputBox_PreviewExecuted" />
+                        </RichTextBox.CommandBindings>
+                    </RichTextBox>
+                    <Button x:Name="SearchToggleBtn" Grid.Column="3" Width="48" Height="44" Margin="12,0,0,0"
+                            Background="Transparent" Foreground="{StaticResource TextMuted}" BorderThickness="1" BorderBrush="{StaticResource Border}"
+                            Cursor="Hand" Click="SearchToggleBtn_Click" Content="🌐" FontSize="16" ToolTip="启用联网搜索"/>
+                    
+                    <Button x:Name="SendBtn" Grid.Column="4" Width="48" Height="44" Margin="12,0,0,0"
+                            Background="{StaticResource AccentGradient}" Foreground="Red" BorderThickness="0"
+                            Cursor="Hand" Click="SendBtn_Click" Content="➤" FontSize="18" ToolTip="发送问题"/>
+                    
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
